@@ -1,25 +1,35 @@
 package cz.suky.teamtodo.android.activity;
 
-import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import cz.suky.teamtodo.android.R;
-import cz.suky.teamtodo.android.annotation.Inject;
+import cz.suky.teamtodo.android.adapter.TodoListRow;
+import cz.suky.teamtodo.android.annotation.InjectComponent;
+import cz.suky.teamtodo.android.annotation.InjectService;
+import cz.suky.teamtodo.android.model.TodoList;
+import cz.suky.teamtodo.android.service.TodoListService;
 
 
 public class MainActivity extends AbstractActivity {
 
-    @Inject(R.id.todos)
+    @InjectService
+    private TodoListService todoListService;
+
+    @InjectComponent(R.id.todos)
     private ListView todos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        TodoListRow todoListRow = new TodoListRow(this, todoListService.getAll());
+        todos.setAdapter(todoListRow);
+
     }
 
     @Override
