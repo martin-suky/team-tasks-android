@@ -3,9 +3,13 @@ package cz.suky.teamtodo.android.model;
 import java.util.List;
 
 /**
+ * TTodo list object
  * Created by suky on 2.6.15.
  */
 public class TodoList extends AbstractModel {
+
+    public static final TodoList notFoundList = new TodoList("Nothing here...");
+
     private static final long serialVersionUID = 1;
 
     private String name;

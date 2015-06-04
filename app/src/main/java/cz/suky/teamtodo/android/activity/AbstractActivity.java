@@ -9,9 +9,10 @@ import cz.suky.teamtodo.android.annotation.InjectService;
 import cz.suky.teamtodo.android.service.Factory;
 
 /**
+ * Implementation of basic functionality for Activities
  * Created by suky on 2.6.15.
  */
-public class AbstractActivity extends Activity {
+public abstract class AbstractActivity extends Activity {
 
     @Override
     public void setContentView(int layoutResID) {
@@ -32,13 +33,9 @@ public class AbstractActivity extends Activity {
 
     private void injectService(Field field) {
         InjectService annotation = field.getAnnotation(InjectService.class);
-        if (annotation.value().length() > 0) {
-//            TODO: use classifier
-        } else {
-            Class<?> type = field.getType();
-            Object object = Factory.instance.getObject(type);
-            setToField(field, object);
-        }
+        Class<?> type = field.getType();
+        Object object = Factory.instance.getObject(type);
+        setToField(field, object);
     }
 
     private void injectComponents(Field field) {

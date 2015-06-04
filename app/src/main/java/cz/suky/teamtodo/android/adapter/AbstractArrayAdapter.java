@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import java.util.List;
 
 /**
+ * Abstract adapter. It provides basic functionality and utility methods for Adapters.
  * Created by suky on 3.6.15.
  */
 public abstract class AbstractArrayAdapter<Data> extends ArrayAdapter<Data> {
@@ -34,7 +35,7 @@ public abstract class AbstractArrayAdapter<Data> extends ArrayAdapter<Data> {
     }
 
     @SuppressWarnings("unchecked")
-    protected <T> T findViewByIdTyped(View v, int id) {
+    protected <T extends View> T findViewByIdTyped(View v, int id) {
         return (T) v.findViewById(id);
     }
 }

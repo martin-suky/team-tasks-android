@@ -1,12 +1,20 @@
 package cz.suky.teamtodo.android.model;
 
 /**
+ * Object for one row of ToDo list
  * Created by suky on 2.6.15.
  */
 public class TodoValue extends AbstractModel {
     private String text;
     private Status status;
-    private TodoList parent;
+
+    public TodoValue() {
+    }
+
+    public TodoValue(String text, Status status) {
+        this.text = text;
+        this.status = status;
+    }
 
     public String getText() {
         return text;
@@ -22,13 +30,5 @@ public class TodoValue extends AbstractModel {
 
     public void setStatus(Status status) {
         this.status = status;
-    }
-
-    public TodoList getParent() {
-        return parent;
-    }
-
-    public void setParent(TodoList parent) {
-        this.parent = parent;
     }
 }

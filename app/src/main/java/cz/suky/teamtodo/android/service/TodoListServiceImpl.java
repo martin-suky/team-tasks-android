@@ -3,9 +3,12 @@ package cz.suky.teamtodo.android.service;
 import java.util.Arrays;
 import java.util.List;
 
+import cz.suky.teamtodo.android.model.Status;
 import cz.suky.teamtodo.android.model.TodoList;
+import cz.suky.teamtodo.android.model.TodoValue;
 
 /**
+ * Implementation of TodoListService
  * Created by suky on 3.6.15.
  */
 public class TodoListServiceImpl implements TodoListService {
@@ -24,5 +27,21 @@ public class TodoListServiceImpl implements TodoListService {
                 new TodoList("test18"),
                 new TodoList("test19"),
                 new TodoList("test2"));
+    }
+
+    @Override
+    public TodoList get(long id) {
+        TodoList todoList = new TodoList("Test 1");
+        todoList.setTodoValues(Arrays.asList(
+                new TodoValue("uklid", Status.OPEN),
+                new TodoValue("nakup", Status.OPEN),
+                new TodoValue("kolo", Status.DONE)
+        ));
+        return todoList;
+    }
+
+    @Override
+    public void updateStatus(long id, Status newStatus) {
+
     }
 }

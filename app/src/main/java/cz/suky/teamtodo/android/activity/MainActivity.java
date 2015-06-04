@@ -1,9 +1,11 @@
 package cz.suky.teamtodo.android.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import cz.suky.teamtodo.android.R;
@@ -13,22 +15,25 @@ import cz.suky.teamtodo.android.annotation.InjectService;
 import cz.suky.teamtodo.android.model.TodoList;
 import cz.suky.teamtodo.android.service.TodoListService;
 
+import static android.widget.AdapterView.OnItemClickListener;
+
 
 public class MainActivity extends AbstractActivity {
 
     @InjectService
     private TodoListService todoListService;
 
-    @InjectComponent(R.id.todos)
+    @InjectComponent(R.id.ma_todos)
     private ListView todos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.main_activity);
 
         TodoListRow todoListRow = new TodoListRow(this, todoListService.getAll());
         todos.setAdapter(todoListRow);
+        todos.setOnItemClickListener(todoListRowClickHandler);
 
     }
 
@@ -53,4 +58,20 @@ public class MainActivity extends AbstractActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void selectTodo(TodoList todoList) {
+        Intent intent = new Intent(this, TodoListActivity.class);
+        intent.putExtra(TodoListActivity.TODO_LIST_ID, todoList.getId());
+
+        startActivity(intent);
+    }
+
+    private OnItemClickListener todoListRowClickHandler = new OnItemClickListener() {
+
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            TodoList selectedTodo = (TodoList) adapterView.getItemAtPosition(i);
+            selectTodo(selectedTodo);
+        }
+    };
 }
