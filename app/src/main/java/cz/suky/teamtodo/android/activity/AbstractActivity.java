@@ -34,7 +34,7 @@ public abstract class AbstractActivity extends Activity {
     private void injectService(Field field) {
         InjectService annotation = field.getAnnotation(InjectService.class);
         Class<?> type = field.getType();
-        Object object = Factory.instance.getObject(type);
+        Object object = Factory.get().getObject(type);
         setToField(field, object);
     }
 

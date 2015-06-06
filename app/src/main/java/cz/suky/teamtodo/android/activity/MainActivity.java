@@ -1,5 +1,6 @@
 package cz.suky.teamtodo.android.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -20,6 +21,8 @@ import static android.widget.AdapterView.OnItemClickListener;
 
 public class MainActivity extends AbstractActivity {
 
+    public static Context context;
+
     @InjectService
     private TodoListService todoListService;
 
@@ -28,6 +31,7 @@ public class MainActivity extends AbstractActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        MainActivity.context = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 

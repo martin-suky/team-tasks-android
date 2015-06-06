@@ -5,6 +5,10 @@ package cz.suky.teamtodo.android.model;
  * Created by suky on 2.6.15.
  */
 public class TodoValue extends AbstractModel {
+
+    public static final String TABLE_TODO_VALUE = "TodoValue";
+    public static final String COLUMN_TEXT      = "text";
+
     private String text;
     private Status status;
 

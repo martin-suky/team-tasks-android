@@ -8,22 +8,25 @@ import java.io.Serializable;
 public class AbstractModel implements Serializable {
     private static final long serialVersionUID = 1;
 
-    private long id;
-    private long version;
+    public static final String COLUMN_ID      = "id";
+    public static final String COLUMN_VERSION = "version";
 
-    public long getId() {
+    private Long id;
+    private Long version;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getVersion() {
+    public Long getVersion() {
         return version;
     }
 
-    public void setVersion(long version) {
+    public void setVersion(Long version) {
         this.version = version;
     }
 
@@ -34,7 +37,7 @@ public class AbstractModel implements Serializable {
 
         AbstractModel that = (AbstractModel) o;
 
-        return id == that.id;
+        return id.equals(that.id);
 
     }
 
