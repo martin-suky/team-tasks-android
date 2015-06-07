@@ -21,7 +21,7 @@ public class Factory {
 
     public Factory(Context context) {
         this.context = context;
-        todoListService = new TodoListServiceImpl();
+        todoListService = new TodoListServiceImpl(todoListDao);
         services.put(TodoListService.class, todoListService);
     }
 

@@ -7,6 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
+import cz.suky.teamtodo.android.db.builder.DeleteBuilder;
+import cz.suky.teamtodo.android.db.builder.InsertBuilder;
+import cz.suky.teamtodo.android.db.builder.QueryBuilder;
+import cz.suky.teamtodo.android.db.builder.UpdateBuilder;
 import cz.suky.teamtodo.android.model.AbstractModel;
 
 /**
@@ -59,14 +63,14 @@ public abstract class AbstractDaoImpl<Model extends AbstractModel> implements Ab
         } else {
             new UpdateBuilder()
                     .table(getTableName())
-                    .equals(AbstractModel.COLUMN_ID, model.getId() + "")
+                    .equals(AbstractModel.COLUMN_ID, model.getId().toString())
                     .execute(getWDb(), mapToValues(model));
         }
     }
 
     @Override
     public void delete(Model model) {
-
+        new DeleteBuilder().table(getTableName()).equals(AbstractModel.COLUMN_ID, model.getId().toString());
     }
 
     protected SQLiteDatabase getWDb() {
@@ -75,6 +79,22 @@ public abstract class AbstractDaoImpl<Model extends AbstractModel> implements Ab
 
     protected SQLiteDatabase getRDb() {
         return dbHelper.getReadableDatabase();
+    }
+
+    protected Model mapToModelAbstract(Model model, Cursor cursor) {
+        model.setId(cursor.getLong(cursor.getColumnIndex(AbstractModel.COLUMN_ID)));
+        model.setVersion(cursor.getLong(cursor.getColumnIndex(AbstractModel.COLUMN_VERSION)));
+        return model;
+    }
+
+    protected ContentValues mapToValuesAbstract(Model model) {
+        return mapToValuesAbstract(model, new ContentValues());
+    }
+
+    protected ContentValues mapToValuesAbstract(Model model, ContentValues values) {
+        values.put(AbstractModel.COLUMN_ID, model.getId());
+        values.put(AbstractModel.COLUMN_VERSION, model.getVersion());
+        return values;
     }
 
     protected abstract String getTableName();
@@ -92,4 +112,5 @@ public abstract class AbstractDaoImpl<Model extends AbstractModel> implements Ab
         }
         return models;
     }
+
 }

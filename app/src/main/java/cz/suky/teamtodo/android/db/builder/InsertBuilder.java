@@ -1,4 +1,4 @@
-package cz.suky.teamtodo.android.db;
+package cz.suky.teamtodo.android.db.builder;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;

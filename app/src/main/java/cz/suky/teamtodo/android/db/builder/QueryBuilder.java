@@ -1,4 +1,4 @@
-package cz.suky.teamtodo.android.db;
+package cz.suky.teamtodo.android.db.builder;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;

@@ -10,9 +10,9 @@ import cz.suky.teamtodo.android.model.TodoList;
  * Created by suky on 3.6.15.
  */
 public interface TodoListService {
-    List<TodoList> getAll();
+    void getAll(ServiceResultCallback<List<TodoList>> calback);
 
-    TodoList get(long id);
+    void get(long id, ServiceResultCallback<TodoList> callback);
 
-    void updateStatus(long id, Status newStatus);
+    void updateStatus(long id, Status newStatus, ServiceResultCallback<Void> callback);
 }

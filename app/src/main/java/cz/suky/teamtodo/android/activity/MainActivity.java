@@ -9,11 +9,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.util.List;
+
 import cz.suky.teamtodo.android.R;
 import cz.suky.teamtodo.android.adapter.TodoListRow;
 import cz.suky.teamtodo.android.annotation.InjectComponent;
 import cz.suky.teamtodo.android.annotation.InjectService;
 import cz.suky.teamtodo.android.model.TodoList;
+import cz.suky.teamtodo.android.service.ServiceResultCallback;
 import cz.suky.teamtodo.android.service.TodoListService;
 
 import static android.widget.AdapterView.OnItemClickListener;
@@ -35,9 +38,7 @@ public class MainActivity extends AbstractActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        TodoListRow todoListRow = new TodoListRow(this, todoListService.getAll());
-        todos.setAdapter(todoListRow);
-        todos.setOnItemClickListener(todoListRowClickHandler);
+        todoListService.getAll(new GetAllCallback());
 
     }
 
@@ -78,4 +79,14 @@ public class MainActivity extends AbstractActivity {
             selectTodo(selectedTodo);
         }
     };
+
+    private class GetAllCallback implements ServiceResultCallback<List<TodoList>> {
+
+        @Override
+        public void processResult(List<TodoList> result) {
+            TodoListRow todoListRow = new TodoListRow(MainActivity.this, result);
+            todos.setAdapter(todoListRow);
+            todos.setOnItemClickListener(todoListRowClickHandler);
+        }
+    }
 }

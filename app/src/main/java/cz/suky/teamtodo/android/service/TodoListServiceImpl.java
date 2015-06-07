@@ -1,11 +1,10 @@
 package cz.suky.teamtodo.android.service;
 
-import java.util.Arrays;
 import java.util.List;
 
+import cz.suky.teamtodo.android.db.TodoListDao;
 import cz.suky.teamtodo.android.model.Status;
 import cz.suky.teamtodo.android.model.TodoList;
-import cz.suky.teamtodo.android.model.TodoValue;
 
 /**
  * Implementation of TodoListService
@@ -13,35 +12,34 @@ import cz.suky.teamtodo.android.model.TodoValue;
  */
 public class TodoListServiceImpl implements TodoListService {
 
-    @Override
-    public List<TodoList> getAll() {
-        return Arrays.asList(
-                new TodoList("test1"),
-                new TodoList("test11"),
-                new TodoList("test12"),
-                new TodoList("test13"),
-                new TodoList("test14"),
-                new TodoList("test15"),
-                new TodoList("test16"),
-                new TodoList("test17"),
-                new TodoList("test18"),
-                new TodoList("test19"),
-                new TodoList("test2"));
+    private final TodoListDao todoListDao;
+
+    public TodoListServiceImpl(TodoListDao todoListDao) {
+        this.todoListDao = todoListDao;
     }
 
     @Override
-    public TodoList get(long id) {
-        TodoList todoList = new TodoList("Test 1");
-        todoList.setTodoValues(Arrays.asList(
-                new TodoValue("uklid", Status.OPEN),
-                new TodoValue("nakup", Status.OPEN),
-                new TodoValue("kolo", Status.DONE)
-        ));
-        return todoList;
+    public void getAll(ServiceResultCallback<List<TodoList>> calback) {
+        new AsyncService<Void, List<TodoList>>(calback) {
+            @Override
+            protected List<TodoList> doIt(Void request) {
+                return todoListDao.getAll();
+            }
+        }.execute();
     }
 
     @Override
-    public void updateStatus(long id, Status newStatus) {
+    public void get(long id, ServiceResultCallback<TodoList> callback) {
+        new AsyncService<Long, TodoList>(callback) {
+            @Override
+            protected TodoList doIt(Long request) {
+                return todoListDao.getById(request);
+            }
+        }.execute(id);
+    }
+
+    @Override
+    public void updateStatus(long id, Status newStatus, ServiceResultCallback<Void> callback) {
 
     }
 }
