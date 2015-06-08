@@ -1,6 +1,7 @@
 package cz.suky.teamtodo.android.activity;
 
 import android.app.Activity;
+import android.support.v7.app.ActionBarActivity;
 
 import java.lang.reflect.Field;
 
@@ -12,7 +13,7 @@ import cz.suky.teamtodo.android.service.Factory;
  * Implementation of basic functionality for Activities
  * Created by suky on 2.6.15.
  */
-public abstract class AbstractActivity extends Activity {
+public abstract class AbstractActivity extends ActionBarActivity {
 
     @Override
     public void setContentView(int layoutResID) {

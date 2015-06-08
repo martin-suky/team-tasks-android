@@ -82,7 +82,7 @@ public abstract class AbstractDaoImpl<Model extends AbstractModel> implements Ab
     }
 
     protected Model mapToModelAbstract(Model model, Cursor cursor) {
-        model.setId(cursor.getLong(cursor.getColumnIndex(AbstractModel.COLUMN_ID)));
+        model.setId(cursor.getInt(cursor.getColumnIndex(AbstractModel.COLUMN_ID)));
         model.setVersion(cursor.getLong(cursor.getColumnIndex(AbstractModel.COLUMN_VERSION)));
         return model;
     }

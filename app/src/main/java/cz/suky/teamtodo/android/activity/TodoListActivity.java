@@ -34,17 +34,17 @@ public class TodoListActivity extends AbstractActivity implements TodoValueRow.S
         super.onCreate(savedInstanceState);
         setContentView(R.layout.todo_list_activity);
 
-        loadAndDisplayTodoList(this.getIntent().getLongExtra(TODO_LIST_ID, 0));
+        loadAndDisplayTodoList(this.getIntent().getIntExtra(TODO_LIST_ID, 0));
     }
 
-    private void loadAndDisplayTodoList(long listId) {
-        TodoList todoList = todoListService.get(listId);
-        vName.setText(todoList.getName());
-        vValues.setAdapter(new TodoValueRow(this, this, todoList.getTodoValues()));
+    private void loadAndDisplayTodoList(Integer listId) {
+//        TodoList todoList = todoListService.get(listId);
+//        vName.setText(todoList.getName());
+//        vValues.setAdapter(new TodoValueRow(this, this, todoList.getTodoValues()));
     }
 
     @Override
     public void onStatusChange(TodoValue value, Status newStatus) {
-        todoListService.updateStatus(value.getId(), newStatus);
+//        todoListService.updateStatus(value.getId(), newStatus);
     }
 }

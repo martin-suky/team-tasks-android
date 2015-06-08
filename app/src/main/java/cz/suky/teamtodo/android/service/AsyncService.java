@@ -16,7 +16,11 @@ public abstract class AsyncService<Request, Response> extends AsyncTask<Request,
     @Override
     protected Response doInBackground(Request... requests) {
         try {
-            return doIt(requests[0]);
+            if (requests != null && requests.length > 0) {
+                return doIt(requests[0]);
+            } else {
+                return doIt(null);
+            }
         } catch (Exception e) {
             throw new RuntimeException("Something bad happened.", e);
         }

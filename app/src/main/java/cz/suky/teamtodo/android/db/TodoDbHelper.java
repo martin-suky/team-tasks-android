@@ -24,10 +24,11 @@ public class TodoDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(DROP_TABLE + TodoList.TABLE_NAME);
         db.execSQL("CREATE TABLE " + TodoList.TABLE_NAME + " (" +
-                TodoList.COLUMN_ID + " NUMERIC PRIMARY KEY AUTOINCREMENT, " +
+                TodoList.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 TodoList.COLUMN_VERSION + " NUMERIC, " +
                 TodoList.COLUMN_NAME + " TEXT NOT NULL" +
                 ")");
+        db.execSQL("INSERT INTO " + TodoList.TABLE_NAME + " (name) values ('test 1')");
     }
 
     @Override

@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cz.suky.teamtodo.android.activity.MainActivity;
+import cz.suky.teamtodo.android.db.TodoDbHelper;
+import cz.suky.teamtodo.android.db.TodoListDao;
+import cz.suky.teamtodo.android.db.TodoListDaoImpl;
 
 /**
  * Created by suky on 3.6.15.
@@ -17,10 +20,14 @@ public class Factory {
 
     private Map<Class<?>, Object> services = new HashMap<>();
 
+    private final TodoDbHelper dbHelper;
     private final TodoListService todoListService;
+    private final TodoListDao todoListDao;
 
     public Factory(Context context) {
         this.context = context;
+        dbHelper = new TodoDbHelper(context);
+        todoListDao = new TodoListDaoImpl(dbHelper);
         todoListService = new TodoListServiceImpl(todoListDao);
         services.put(TodoListService.class, todoListService);
     }

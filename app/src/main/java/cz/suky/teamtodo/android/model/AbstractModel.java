@@ -8,17 +8,17 @@ import java.io.Serializable;
 public class AbstractModel implements Serializable {
     private static final long serialVersionUID = 1;
 
-    public static final String COLUMN_ID      = "id";
+    public static final String COLUMN_ID = "id";
     public static final String COLUMN_VERSION = "version";
 
-    private Long id;
+    private Integer id;
     private Long version;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -37,12 +37,12 @@ public class AbstractModel implements Serializable {
 
         AbstractModel that = (AbstractModel) o;
 
-        return id.equals(that.id);
+        return !(id != null ? !id.equals(that.id) : that.id != null);
 
     }
 
     @Override
     public int hashCode() {
-        return (int) (id ^ (id >>> 32));
+        return id != null ? id.hashCode() : 0;
     }
 }
