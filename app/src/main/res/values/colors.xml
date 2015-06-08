@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="todo_open">#000</color>
-    <color name="todo_done">#777</color>
+    <color name="task_open">#000</color>
+    <color name="task_done">#777</color>
 </resources>

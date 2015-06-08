@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Team Todo Android</string>
+    <string name="app_name">Team Tasks</string>
+    <string name="edit_task_value">Edit Task List</string>
 
-    <string name="available_todos">Available ToDos</string>
-    <string name="action_add_list">Add list</string>
+    <string name="action_add_list">Add Task List</string>
     <string name="action_settings">Settings</string>
 </resources>
