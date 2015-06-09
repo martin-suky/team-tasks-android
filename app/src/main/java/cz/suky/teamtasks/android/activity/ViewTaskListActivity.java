@@ -18,6 +18,7 @@ import cz.suky.teamtasks.android.annotation.InjectService;
 import cz.suky.teamtasks.android.model.TaskList;
 import cz.suky.teamtasks.android.service.ServiceResultCallback;
 import cz.suky.teamtasks.android.service.TaskListService;
+import cz.suky.teamtasks.android.util.Constants;
 
 import static android.widget.AdapterView.OnItemClickListener;
 
@@ -65,7 +66,7 @@ public class ViewTaskListActivity extends AbstractActivity {
 
     private void selectTodo(TaskList taskList) {
         Intent intent = new Intent(this, ViewTaskValuesActivity.class);
-        intent.putExtra(ViewTaskValuesActivity.TASK_LIST_ID, taskList.getId());
+        intent.putExtra(Constants.TASK_LIST_ID, taskList.getId());
 
         startActivity(intent);
     }

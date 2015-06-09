@@ -14,5 +14,7 @@ public interface TaskListService {
 
     void get(long id, ServiceResultCallback<TaskList> callback);
 
+    void save(TaskList taskList, ServiceResultCallback<Void> callback);
+
     void updateStatus(long id, Status newStatus, ServiceResultCallback<Void> callback);
 }

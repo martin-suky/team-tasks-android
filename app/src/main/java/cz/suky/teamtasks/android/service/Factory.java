@@ -28,7 +28,7 @@ public class Factory {
         this.context = context;
         dbHelper = new TeamTasksDbHelper(context);
         taskListDao = new TaskListDaoImpl(dbHelper);
-        taskListService = new TaskListServiceImpl(taskListDao);
+        taskListService = new TaskListServiceImpl(context, taskListDao);
         services.put(TaskListService.class, taskListService);
     }
 

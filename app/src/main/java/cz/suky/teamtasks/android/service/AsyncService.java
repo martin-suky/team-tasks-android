@@ -1,5 +1,7 @@
 package cz.suky.teamtasks.android.service;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 
 /**
@@ -7,10 +9,19 @@ import android.os.AsyncTask;
  */
 public abstract class AsyncService<Request, Response> extends AsyncTask<Request, Void, Response> {
 
+    private Context context;
     private ServiceResultCallback<Response> callback;
+    private ProgressDialog loading;
 
-    public AsyncService(ServiceResultCallback<Response> callback) {
+    public AsyncService(Context context, ServiceResultCallback<Response> callback) {
+        this.context = context;
         this.callback = callback;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        loading = ProgressDialog.show(context, null, "Loading");
     }
 
     @Override
@@ -30,6 +41,10 @@ public abstract class AsyncService<Request, Response> extends AsyncTask<Request,
 
     @Override
     protected void onPostExecute(Response response) {
+        if (loading != null) {
+            loading.dismiss();
+            loading = null;
+        }
         callback.processResult(response);
     }
 }

@@ -11,14 +11,13 @@ import cz.suky.teamtasks.android.annotation.InjectService;
 import cz.suky.teamtasks.android.model.Status;
 import cz.suky.teamtasks.android.model.TaskValue;
 import cz.suky.teamtasks.android.service.TaskListService;
+import cz.suky.teamtasks.android.util.Constants;
 
 /**
  * Activity for displaying task list.
  * Created by suky on 4.6.15.
  */
 public class ViewTaskValuesActivity extends AbstractActivity implements TaskValueRow.StatusChangeHandler {
-
-    public static final String TASK_LIST_ID = "taskListId";
 
     @InjectComponent(R.id.tla_name)
     private TextView vName;
@@ -33,7 +32,7 @@ public class ViewTaskValuesActivity extends AbstractActivity implements TaskValu
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_task_value_activity);
 
-        loadAndDisplayTaskList(this.getIntent().getIntExtra(TASK_LIST_ID, 0));
+        loadAndDisplayTaskList(this.getIntent().getIntExtra(Constants.TASK_LIST_ID, 0));
     }
 
     private void loadAndDisplayTaskList(Integer listId) {
