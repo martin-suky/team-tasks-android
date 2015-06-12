@@ -25,7 +25,7 @@ public abstract class AbstractDaoImpl<Model extends AbstractModel> implements Ab
     }
 
     @Override
-    public Model getById(long id) {
+    public Model getById(int id) {
         SQLiteDatabase rDb = getRDb();
         Cursor cursor = new QueryBuilder()
                 .select(getAllColumns())
@@ -69,8 +69,8 @@ public abstract class AbstractDaoImpl<Model extends AbstractModel> implements Ab
     }
 
     @Override
-    public void delete(Model model) {
-        new DeleteBuilder().table(getTableName()).equals(AbstractModel.COLUMN_ID, model.getId().toString());
+    public void delete(int id) {
+        new DeleteBuilder().table(getTableName()).equals(AbstractModel.COLUMN_ID, id + "").execute(getWDb());
     }
 
     protected SQLiteDatabase getWDb() {

@@ -9,8 +9,8 @@ import java.util.List;
  * Created by suky on 7.6.15.
  */
 public class DeleteBuilder {
-    private String tableName;
-    private String where;
+    private String tableName = "";
+    private String where = "";
     private List<String> wheres = new ArrayList<>();
 
     private int execute(SQLiteDatabase db) {

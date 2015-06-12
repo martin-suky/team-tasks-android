@@ -12,9 +12,9 @@ import cz.suky.teamtasks.android.model.TaskList;
 public interface TaskListService {
     void getAll(ServiceResultCallback<List<TaskList>> calback);
 
-    void get(long id, ServiceResultCallback<TaskList> callback);
+    void get(int id, ServiceResultCallback<TaskList> callback);
 
     void save(TaskList taskList, ServiceResultCallback<Void> callback);
 
-    void updateStatus(long id, Status newStatus, ServiceResultCallback<Void> callback);
+    void delete(int id, ServiceResultCallback<Void> callback);
 }

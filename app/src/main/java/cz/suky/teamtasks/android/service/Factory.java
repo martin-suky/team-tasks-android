@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cz.suky.teamtasks.android.activity.ViewTaskListActivity;
+import cz.suky.teamtasks.android.db.TaskValueDao;
+import cz.suky.teamtasks.android.db.TaskValueDaoImpl;
 import cz.suky.teamtasks.android.db.TeamTasksDbHelper;
 import cz.suky.teamtasks.android.db.TaskListDao;
 import cz.suky.teamtasks.android.db.TaskListDaoImpl;
@@ -22,14 +24,20 @@ public class Factory {
 
     private final TeamTasksDbHelper dbHelper;
     private final TaskListService   taskListService;
+    private final TaskValueService  taskValueService;
     private final TaskListDao       taskListDao;
+    private final TaskValueDao      taskValueDao;
 
     public Factory(Context context) {
         this.context = context;
         dbHelper = new TeamTasksDbHelper(context);
         taskListDao = new TaskListDaoImpl(dbHelper);
+        taskValueDao = new TaskValueDaoImpl(dbHelper);
         taskListService = new TaskListServiceImpl(context, taskListDao);
+        taskValueService = new TaskValueServiceImpl(context, taskValueDao);
+
         services.put(TaskListService.class, taskListService);
+        services.put(TaskValueService.class, taskValueService);
     }
 
     public static Factory get() {

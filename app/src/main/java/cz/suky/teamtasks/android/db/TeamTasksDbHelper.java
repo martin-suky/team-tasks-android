@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import cz.suky.teamtasks.android.model.TaskList;
+import cz.suky.teamtasks.android.model.TaskValue;
 
 /**
  * Created by suky on 6.6.15.
@@ -28,7 +29,14 @@ public class TeamTasksDbHelper extends SQLiteOpenHelper {
                 TaskList.COLUMN_VERSION + " NUMERIC, " +
                 TaskList.COLUMN_NAME + " TEXT NOT NULL" +
                 ")");
-        db.execSQL("INSERT INTO " + TaskList.TABLE_NAME + " (name) values ('test 1')");
+        db.execSQL(DROP_TABLE + TaskValue.TABLE_NAME);
+        db.execSQL("CREATE TABLE " + TaskValue.TABLE_NAME + " (" +
+                TaskValue.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                TaskValue.COLUMN_VERSION + " NUMERIC, " +
+                TaskValue.COLUMN_TEXT + " TEXT NOT NULL, " +
+                TaskValue.COLUMN_LIST_ID + " INTEGER NOT NULL, " +
+                "FOREIGN KEY ("+ TaskValue.COLUMN_LIST_ID + ") REFERENCES " + TaskList.TABLE_NAME + " (" + TaskList.COLUMN_ID + ")" +
+                ")");
     }
 
     @Override

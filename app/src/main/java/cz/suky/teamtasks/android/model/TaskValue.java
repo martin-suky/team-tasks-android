@@ -6,8 +6,9 @@ package cz.suky.teamtasks.android.model;
  */
 public class TaskValue extends AbstractModel {
 
-    public static final String TABLE_TASK_VALUE = "TaskValue";
-    public static final String COLUMN_TEXT      = "text";
+    public static final String TABLE_NAME = "TaskValue";
+    public static final String COLUMN_TEXT = "text";
+    public static final String COLUMN_LIST_ID = "taskListId";
 
     private String text;
     private Status status;

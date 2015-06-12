@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
  */
 public class InsertBuilder {
 
-    private String table;
+    private String table = "";
     ContentValues contentValues = new ContentValues();
 
     public InsertBuilder() {

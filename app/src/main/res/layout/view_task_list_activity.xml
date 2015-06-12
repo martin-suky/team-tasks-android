@@ -10,6 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         style="@style/TodoListList"
-        android:id="@+id/ma_todos" />
+        android:id="@+id/vtla_tasks" />
 
 </LinearLayout>

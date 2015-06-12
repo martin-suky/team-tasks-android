@@ -11,8 +11,8 @@ import java.util.List;
  */
 public class QueryBuilder {
     private String[] columns;
-    private String   tableName;
-    private String       where  = "";
+    private String tableName = "";
+    private String where = "";
     private List<String> wheres = new ArrayList<>();
 
     public QueryBuilder() {

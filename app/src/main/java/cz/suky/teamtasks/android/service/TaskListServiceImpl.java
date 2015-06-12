@@ -5,6 +5,7 @@ import android.content.Context;
 import java.util.List;
 
 import cz.suky.teamtasks.android.db.TaskListDao;
+import cz.suky.teamtasks.android.db.builder.DeleteBuilder;
 import cz.suky.teamtasks.android.model.Status;
 import cz.suky.teamtasks.android.model.TaskList;
 
@@ -33,10 +34,10 @@ public class TaskListServiceImpl implements TaskListService {
     }
 
     @Override
-    public void get(long id, ServiceResultCallback<TaskList> callback) {
-        new AsyncService<Long, TaskList>(context, callback) {
+    public void get(int id, ServiceResultCallback<TaskList> callback) {
+        new AsyncService<Integer, TaskList>(context, callback) {
             @Override
-            protected TaskList doIt(Long request) {
+            protected TaskList doIt(Integer request) {
                 return taskListDao.getById(request);
             }
         }.execute(id);
@@ -54,7 +55,15 @@ public class TaskListServiceImpl implements TaskListService {
     }
 
     @Override
-    public void updateStatus(long id, Status newStatus, ServiceResultCallback<Void> callback) {
+    public void delete(int id, ServiceResultCallback<Void> callback) {
+        new AsyncService<Integer, Void>(context, callback) {
 
+            @Override
+            protected Void doIt(Integer integer) {
+                taskListDao.delete(integer);
+                return null;
+            }
+        }.execute(id);
     }
+
 }
