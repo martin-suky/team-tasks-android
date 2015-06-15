@@ -7,13 +7,13 @@ import android.os.AsyncTask;
 /**
  * Created by suky on 7.6.15.
  */
-public abstract class AsyncService<Request, Response> extends AsyncTask<Request, Void, Response> {
+public abstract class AsyncService<Request, Payload> extends AsyncTask<Request, Void, Response<Payload>> {
 
     private Context context;
-    private ServiceResultCallback<Response> callback;
+    private ServiceResultCallback<Payload> callback;
     private ProgressDialog loading;
 
-    public AsyncService(Context context, ServiceResultCallback<Response> callback) {
+    public AsyncService(Context context, ServiceResultCallback<Payload> callback) {
         this.context = context;
         this.callback = callback;
     }
@@ -33,7 +33,7 @@ public abstract class AsyncService<Request, Response> extends AsyncTask<Request,
                 return doIt(null);
             }
         } catch (Exception e) {
-            throw new RuntimeException("Something bad happened.", e);
+            return Response.error("Something bad happened.", e);
         }
     }
 

@@ -12,16 +12,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.List;
-import java.util.Objects;
 
 import cz.suky.teamtasks.android.R;
 import cz.suky.teamtasks.android.adapter.TaskListRow;
 import cz.suky.teamtasks.android.annotation.InjectComponent;
 import cz.suky.teamtasks.android.annotation.InjectService;
 import cz.suky.teamtasks.android.model.TaskList;
+import cz.suky.teamtasks.android.service.Response;
 import cz.suky.teamtasks.android.service.ServiceResultCallback;
 import cz.suky.teamtasks.android.service.TaskListService;
 import cz.suky.teamtasks.android.service.TaskValueService;
@@ -60,8 +59,7 @@ public class ViewTaskListActivity extends AbstractActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_view_task_list, menu);
         return true;
     }
 
@@ -102,10 +100,10 @@ public class ViewTaskListActivity extends AbstractActivity {
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.action_add_task_list:
+            case R.id.mvtl_add_task_list:
                 startActivityForTask(EditTaskListActivity.class, null);
                 return true;
-            case R.id.action_settings:
+            case R.id.mvtl_settings:
             default:
                 return true;
         }
@@ -156,9 +154,9 @@ public class ViewTaskListActivity extends AbstractActivity {
 
     private ServiceResultCallback<List<TaskList>> getAllCallback = new ServiceResultCallback<List<TaskList>>() {
         @Override
-        public void processResult(List<TaskList> result) {
-            taskLists = result;
-            TaskListRow taskListRow = new TaskListRow(ViewTaskListActivity.this, result);
+        public void processResult(Response<List<TaskList>> result) {
+            taskLists = result.payload;
+            TaskListRow taskListRow = new TaskListRow(ViewTaskListActivity.this, result.payload);
             tasks.setAdapter(taskListRow);
         }
     };
@@ -172,15 +170,15 @@ public class ViewTaskListActivity extends AbstractActivity {
         }
 
         @Override
-        public void processResult(Integer result) {
+        public void processResult(Response<Integer> result) {
             AlertDialog.Builder builder = new AlertDialog.Builder(ViewTaskListActivity.this);
-            builder.setMessage(formatString(R.string.vtla_confirm_delete, result))
+            builder.setMessage(formatString(R.string.vtla_confirm_delete, result.payload))
                     .setPositiveButton(formatString(R.string.button_yes), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             taskListService.delete(taskToDelete, new ServiceResultCallback<Void>() {
                                 @Override
-                                public void processResult(Void result) {
+                                public void processResult(Response<Void> result) {
                                     refreshData();
                                 }
                             });

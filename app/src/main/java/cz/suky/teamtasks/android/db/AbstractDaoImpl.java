@@ -105,7 +105,7 @@ public abstract class AbstractDaoImpl<Model extends AbstractModel> implements Ab
 
     protected abstract ContentValues mapToValues(Model model);
 
-    private List<Model> mapToModels(Cursor cursor) {
+    protected List<Model> mapToModels(Cursor cursor) {
         List<Model> models = new ArrayList<>(cursor.getCount());
         while (cursor.moveToNext()) {
             models.add(mapToModel(cursor));

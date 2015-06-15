@@ -4,12 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tla_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/Header" />
-
     <ListView
         android:id="@+id/tla_values"
         android:layout_width="match_parent"

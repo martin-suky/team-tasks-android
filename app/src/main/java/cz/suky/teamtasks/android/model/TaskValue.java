@@ -12,6 +12,7 @@ public class TaskValue extends AbstractModel {
 
     private String text;
     private Status status;
+    private Integer taskListId;
 
     public TaskValue() {
     }
@@ -35,5 +36,13 @@ public class TaskValue extends AbstractModel {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public Integer getTaskListId() {
+        return taskListId;
+    }
+
+    public void setTaskListId(Integer taskListId) {
+        this.taskListId = taskListId;
     }
 }

@@ -5,4 +5,5 @@ package cz.suky.teamtasks.android.util;
  */
 public class Constants {
     public static final String TASK_LIST_ID = "taskListId";
+    public static final String TASK_VALUE_ID = "taskValueId";
 }

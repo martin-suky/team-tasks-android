@@ -27,8 +27,8 @@ public class TaskListServiceImpl implements TaskListService {
     public void getAll(ServiceResultCallback<List<TaskList>> calback) {
         new AsyncService<Void, List<TaskList>>(context, calback) {
             @Override
-            protected List<TaskList> doIt(Void request) {
-                return taskListDao.getAll();
+            protected Response<List<TaskList>> doIt(Void request) {
+                return Response.ok(taskListDao.getAll());
             }
         }.execute();
     }
@@ -37,8 +37,8 @@ public class TaskListServiceImpl implements TaskListService {
     public void get(int id, ServiceResultCallback<TaskList> callback) {
         new AsyncService<Integer, TaskList>(context, callback) {
             @Override
-            protected TaskList doIt(Integer request) {
-                return taskListDao.getById(request);
+            protected Response<TaskList> doIt(Integer request) {
+                return Response.ok(taskListDao.getById(request));
             }
         }.execute(id);
     }
@@ -47,9 +47,9 @@ public class TaskListServiceImpl implements TaskListService {
     public void save(TaskList taskList, ServiceResultCallback<Void> callback) {
         new AsyncService<TaskList, Void>(context, callback) {
             @Override
-            protected Void doIt(TaskList taskList) {
+            protected Response<Void> doIt(TaskList taskList) {
                 taskListDao.save(taskList);
-                return null;
+                return Response.ok();
             }
         }.execute(taskList);
     }
@@ -59,9 +59,9 @@ public class TaskListServiceImpl implements TaskListService {
         new AsyncService<Integer, Void>(context, callback) {
 
             @Override
-            protected Void doIt(Integer integer) {
+            protected Response<Void> doIt(Integer integer) {
                 taskListDao.delete(integer);
-                return null;
+                return Response.ok();
             }
         }.execute(id);
     }
