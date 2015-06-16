@@ -13,17 +13,15 @@ import cz.suky.teamtasks.android.model.TaskValue;
  */
 public class TaskValueServiceImpl implements TaskValueService {
 
-    private final Context context;
     private final TaskValueDao taskValueDao;
 
-    public TaskValueServiceImpl(Context context, TaskValueDao taskValueDao) {
-        this.context = context;
+    public TaskValueServiceImpl(TaskValueDao taskValueDao) {
         this.taskValueDao = taskValueDao;
     }
 
     @Override
     public void getAllForTaskListId(final Integer taskListId, ServiceResultCallback<List<TaskValue>> callback) {
-        new AsyncService<List<TaskValue>>(context, callback) {
+        new AsyncService<List<TaskValue>>(callback) {
 
             @Override
             protected Response doIt() {
@@ -34,7 +32,7 @@ public class TaskValueServiceImpl implements TaskValueService {
 
     @Override
     public void getCountOfTaskValues(final Integer taskListId, ServiceResultCallback<Integer> callback) {
-        new AsyncService<Integer>(context, callback) {
+        new AsyncService<Integer>(callback) {
 
             @Override
             protected Response<Integer> doIt() {
@@ -45,7 +43,7 @@ public class TaskValueServiceImpl implements TaskValueService {
 
     @Override
     public void get(final int taskValueId, ServiceResultCallback<TaskValue> serviceResultCallback) {
-        new AsyncService<TaskValue>(context, serviceResultCallback) {
+        new AsyncService<TaskValue>(serviceResultCallback) {
 
             @Override
             protected Response doIt() {
@@ -56,7 +54,7 @@ public class TaskValueServiceImpl implements TaskValueService {
 
     @Override
     public void save(final TaskValue taskValue, ServiceResultCallback<Void> callback) {
-        new AsyncService<Void>(context, callback) {
+        new AsyncService<Void>(callback) {
 
             @Override
             protected Response doIt() {
@@ -68,7 +66,7 @@ public class TaskValueServiceImpl implements TaskValueService {
 
     @Override
     public void setStatus(final Integer taskValueId, final Status status, ServiceResultCallback<Void> callback) {
-        new AsyncService<Void>(context, callback) {
+        new AsyncService<Void>(callback) {
 
             @Override
             protected Response doIt() {

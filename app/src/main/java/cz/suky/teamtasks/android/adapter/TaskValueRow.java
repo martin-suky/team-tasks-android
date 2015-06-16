@@ -37,7 +37,7 @@ public class TaskValueRow extends AbstractArrayAdapter<TaskValue> {
     @Override
     protected void fillView(View view, final TaskValue object) {
         CheckBox vStatus = findViewByIdTyped(view, R.id.tvr_status);
-        TextView vName = findViewByIdTyped(view, R.id.tvr_name);
+        final TextView vName = findViewByIdTyped(view, R.id.tvr_name);
 
         vName.setText(object.getText());
         vName.setTextColor(getColorFromStatus(object.getStatus()));
@@ -45,7 +45,10 @@ public class TaskValueRow extends AbstractArrayAdapter<TaskValue> {
         vStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                handler.onStatusChange(object, b ? Status.DONE : Status.OPEN);
+                Status newStatus = b ? Status.DONE : Status.OPEN;
+                object.setStatus(newStatus);
+                vName.setTextColor(getColorFromStatus(newStatus));
+                handler.onStatusChange(object, newStatus);
             }
         });
     }

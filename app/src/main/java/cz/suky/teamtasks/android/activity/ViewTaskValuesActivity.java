@@ -1,6 +1,7 @@
 package cz.suky.teamtasks.android.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,6 +18,7 @@ import cz.suky.teamtasks.android.annotation.InjectService;
 import cz.suky.teamtasks.android.model.Status;
 import cz.suky.teamtasks.android.model.TaskList;
 import cz.suky.teamtasks.android.model.TaskValue;
+import cz.suky.teamtasks.android.service.ExceptionHandlingCallback;
 import cz.suky.teamtasks.android.service.Response;
 import cz.suky.teamtasks.android.service.ServiceResultCallback;
 import cz.suky.teamtasks.android.service.TaskListService;
@@ -73,18 +75,15 @@ public class ViewTaskValuesActivity extends AbstractActivity implements TaskValu
     }
 
     private void loadAndDisplayTaskList(Integer listId) {
-        taskListService.get(listId, new GetTaskListServiceCallback());
-        taskValueService.getAllForTaskListId(listId, new GetValuesServiceCallback());
+        taskListService.get(listId, new GetTaskListServiceCallback(this));
+        taskValueService.getAllForTaskListId(listId, new GetValuesServiceCallback(this));
     }
 
     @Override
     public void onStatusChange(final TaskValue value, final Status newStatus) {
-        taskValueService.setStatus(value.getId(), newStatus, new ServiceResultCallback<Void>() {
+        taskValueService.setStatus(value.getId(), newStatus, new ExceptionHandlingCallback<Void>(this) {
             @Override
-            public void processResult(Response<Void> result) {
-                value.setStatus(newStatus);
-                TaskValueRow adapter = (TaskValueRow) vValues.getAdapter();
-                adapter.notifyDataSetChanged();
+            protected void processPayload(Void aVoid) {
             }
         });
     }
@@ -96,18 +95,27 @@ public class ViewTaskValuesActivity extends AbstractActivity implements TaskValu
         startActivity(intent);
     }
 
-    private class GetTaskListServiceCallback implements ServiceResultCallback<TaskList> {
+    private class GetTaskListServiceCallback extends ExceptionHandlingCallback<TaskList> {
+
+        protected GetTaskListServiceCallback(Context context) {
+            super(context);
+        }
 
         @Override
-        public void processResult(Response<TaskList> result) {
-            setTitle(result.payload.getName());
+        protected void processPayload(TaskList taskList) {
+            setTitle(taskList.getName());
         }
     }
 
-    private class GetValuesServiceCallback implements ServiceResultCallback<List<TaskValue>> {
+    private class GetValuesServiceCallback extends ExceptionHandlingCallback<List<TaskValue>> {
+
+        protected GetValuesServiceCallback(Context context) {
+            super(context);
+        }
+
         @Override
-        public void processResult(Response<List<TaskValue>> result) {
-            TaskValueRow taskValueRow = new TaskValueRow(ViewTaskValuesActivity.this, ViewTaskValuesActivity.this, result.payload);
+        protected void processPayload(List<TaskValue> taskValues) {
+            TaskValueRow taskValueRow = new TaskValueRow(ViewTaskValuesActivity.this, ViewTaskValuesActivity.this, taskValues);
             vValues.setAdapter(taskValueRow);
         }
     }

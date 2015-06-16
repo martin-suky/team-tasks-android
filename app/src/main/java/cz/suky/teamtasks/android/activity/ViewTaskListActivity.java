@@ -20,6 +20,7 @@ import cz.suky.teamtasks.android.adapter.TaskListRow;
 import cz.suky.teamtasks.android.annotation.InjectComponent;
 import cz.suky.teamtasks.android.annotation.InjectService;
 import cz.suky.teamtasks.android.model.TaskList;
+import cz.suky.teamtasks.android.service.ExceptionHandlingCallback;
 import cz.suky.teamtasks.android.service.Response;
 import cz.suky.teamtasks.android.service.ServiceResultCallback;
 import cz.suky.teamtasks.android.service.TaskListService;
@@ -120,7 +121,7 @@ public class ViewTaskListActivity extends AbstractActivity {
         if (taskLists != null) {
             TaskList taskList = taskLists.get(position);
             Integer taskToDelete = taskList.getId();
-            taskValueService.getCountOfTaskValues(taskToDelete, new DeleteTaskListServiceResulCallBack(taskToDelete));
+            taskValueService.getCountOfTaskValues(taskToDelete, new DeleteTaskListServiceResulCallBack(this, taskToDelete));
         }
     }
 
@@ -152,33 +153,34 @@ public class ViewTaskListActivity extends AbstractActivity {
         }
     };
 
-    private ServiceResultCallback<List<TaskList>> getAllCallback = new ServiceResultCallback<List<TaskList>>() {
+    private ServiceResultCallback<List<TaskList>> getAllCallback = new ExceptionHandlingCallback<List<TaskList>>(this) {
         @Override
-        public void processResult(Response<List<TaskList>> result) {
-            taskLists = result.payload;
-            TaskListRow taskListRow = new TaskListRow(ViewTaskListActivity.this, result.payload);
+        protected void processPayload(List<TaskList> taskLists) {
+            ViewTaskListActivity.this.taskLists = taskLists;
+            TaskListRow taskListRow = new TaskListRow(ViewTaskListActivity.this, taskLists);
             tasks.setAdapter(taskListRow);
         }
     };
 
-    private class DeleteTaskListServiceResulCallBack implements ServiceResultCallback<Integer> {
+    private class DeleteTaskListServiceResulCallBack extends ExceptionHandlingCallback<Integer> {
 
         private final Integer taskToDelete;
 
-        private DeleteTaskListServiceResulCallBack(Integer taskToDelete) {
+        protected DeleteTaskListServiceResulCallBack(Context context, Integer taskToDelete) {
+            super(context);
             this.taskToDelete = taskToDelete;
         }
 
         @Override
-        public void processResult(Response<Integer> result) {
+        protected void processPayload(Integer integer) {
             AlertDialog.Builder builder = new AlertDialog.Builder(ViewTaskListActivity.this);
-            builder.setMessage(formatString(R.string.vtla_confirm_delete, result.payload))
+            builder.setMessage(formatString(R.string.vtla_confirm_delete, integer))
                     .setPositiveButton(formatString(R.string.button_yes), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            taskListService.delete(taskToDelete, new ServiceResultCallback<Void>() {
+                            taskListService.delete(taskToDelete, new ExceptionHandlingCallback<Void>(ViewTaskListActivity.this) {
                                 @Override
-                                public void processResult(Response<Void> result) {
+                                protected void processPayload(Void aVoid) {
                                     refreshData();
                                 }
                             });
@@ -186,5 +188,7 @@ public class ViewTaskListActivity extends AbstractActivity {
                     })
                     .setNegativeButton(formatString(R.string.button_no), null).create().show();
         }
-    };
+    }
+
+    ;
 }

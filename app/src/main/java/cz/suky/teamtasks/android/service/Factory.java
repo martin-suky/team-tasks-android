@@ -18,7 +18,6 @@ import cz.suky.teamtasks.android.db.TaskListDaoImpl;
 public class Factory {
 
     private static Factory instance;
-    private final  Context context;
 
     private Map<Class<?>, Object> services = new HashMap<>();
 
@@ -29,12 +28,11 @@ public class Factory {
     private final TaskValueDao      taskValueDao;
 
     public Factory(Context context) {
-        this.context = context;
         dbHelper = new TeamTasksDbHelper(context);
         taskListDao = new TaskListDaoImpl(dbHelper);
         taskValueDao = new TaskValueDaoImpl(dbHelper);
-        taskListService = new TaskListServiceImpl(context, taskListDao);
-        taskValueService = new TaskValueServiceImpl(context, taskValueDao);
+        taskListService = new TaskListServiceImpl(taskListDao);
+        taskValueService = new TaskValueServiceImpl(taskValueDao);
 
         services.put(TaskListService.class, taskListService);
         services.put(TaskValueService.class, taskValueService);

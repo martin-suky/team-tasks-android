@@ -15,17 +15,15 @@ import cz.suky.teamtasks.android.model.TaskList;
  */
 public class TaskListServiceImpl implements TaskListService {
 
-    private Context context;
     private final TaskListDao taskListDao;
 
-    public TaskListServiceImpl(Context context, TaskListDao taskListDao) {
-        this.context = context;
+    public TaskListServiceImpl(TaskListDao taskListDao) {
         this.taskListDao = taskListDao;
     }
 
     @Override
     public void getAll(ServiceResultCallback<List<TaskList>> calback) {
-        new AsyncService<List<TaskList>>(context, calback) {
+        new AsyncService<List<TaskList>>(calback) {
             @Override
             protected Response<List<TaskList>> doIt() {
                 return Response.ok(taskListDao.getAll());
@@ -35,7 +33,7 @@ public class TaskListServiceImpl implements TaskListService {
 
     @Override
     public void get(final int id, ServiceResultCallback<TaskList> callback) {
-        new AsyncService<TaskList>(context, callback) {
+        new AsyncService<TaskList>(callback) {
             @Override
             protected Response<TaskList> doIt() {
                 return Response.ok(taskListDao.getById(id));
@@ -45,7 +43,7 @@ public class TaskListServiceImpl implements TaskListService {
 
     @Override
     public void save(final TaskList taskList, ServiceResultCallback<Void> callback) {
-        new AsyncService<Void>(context, callback) {
+        new AsyncService<Void>(callback) {
             @Override
             protected Response<Void> doIt() {
                 taskListDao.save(taskList);
@@ -56,7 +54,7 @@ public class TaskListServiceImpl implements TaskListService {
 
     @Override
     public void delete(final int id, ServiceResultCallback<Void> callback) {
-        new AsyncService<Void>(context, callback) {
+        new AsyncService<Void>(callback) {
 
             @Override
             protected Response<Void> doIt() {

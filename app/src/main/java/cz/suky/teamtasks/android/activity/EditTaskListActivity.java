@@ -9,6 +9,7 @@ import cz.suky.teamtasks.android.R;
 import cz.suky.teamtasks.android.annotation.InjectComponent;
 import cz.suky.teamtasks.android.annotation.InjectService;
 import cz.suky.teamtasks.android.model.TaskList;
+import cz.suky.teamtasks.android.service.ExceptionHandlingCallback;
 import cz.suky.teamtasks.android.service.Response;
 import cz.suky.teamtasks.android.service.ServiceResultCallback;
 import cz.suky.teamtasks.android.service.TaskListService;
@@ -53,9 +54,9 @@ public class EditTaskListActivity extends AbstractActivity {
 
     private void bindTaskListAndStore() {
         taskList.setName(name.getText().toString());
-        taskListService.save(taskList, new ServiceResultCallback<Void>() {
+        taskListService.save(taskList, new ExceptionHandlingCallback<Void>(this) {
             @Override
-            public void processResult(Response<Void> result) {
+            protected void processPayload(Void aVoid) {
                 finish();
             }
         });
@@ -65,10 +66,10 @@ public class EditTaskListActivity extends AbstractActivity {
         if (taskListId == 0) {
             setTaskListToForm(new TaskList());
         } else {
-            taskListService.get(taskListId, new ServiceResultCallback<TaskList>() {
+            taskListService.get(taskListId, new ExceptionHandlingCallback<TaskList>(this) {
                 @Override
-                public void processResult(Response<TaskList> result) {
-                    setTaskListToForm(result.payload);
+                protected void processPayload(TaskList taskList) {
+                    setTaskListToForm(taskList);
                 }
             });
         }

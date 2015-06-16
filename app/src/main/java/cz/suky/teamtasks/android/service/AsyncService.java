@@ -4,24 +4,27 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import cz.suky.teamtasks.android.R;
+
 /**
  * Created by suky on 7.6.15.
  */
 public abstract class AsyncService<Payload> extends AsyncTask<Void, Void, Response<Payload>> {
 
-    private Context context;
     private ServiceResultCallback<Payload> callback;
-    private ProgressDialog loading;
+    private ProgressDialog                 loading;
 
-    public AsyncService(Context context, ServiceResultCallback<Payload> callback) {
-        this.context = context;
+    public AsyncService(ServiceResultCallback<Payload> callback) {
         this.callback = callback;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        loading = ProgressDialog.show(context, null, "Loading");
+        if (callback instanceof ExceptionHandlingCallback) {
+            Context context = ((ExceptionHandlingCallback) callback).getContext();
+            loading = ProgressDialog.show(context, null, context.getResources().getString(R.string.service_loading));
+        }
     }
 
     @Override
