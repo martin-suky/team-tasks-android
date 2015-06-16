@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import java.util.List;
@@ -77,8 +78,15 @@ public class ViewTaskValuesActivity extends AbstractActivity implements TaskValu
     }
 
     @Override
-    public void onStatusChange(TaskValue value, Status newStatus) {
-//        taskListService.updateStatus(value.getId(), newStatus);
+    public void onStatusChange(final TaskValue value, final Status newStatus) {
+        taskValueService.setStatus(value.getId(), newStatus, new ServiceResultCallback<Void>() {
+            @Override
+            public void processResult(Response<Void> result) {
+                value.setStatus(newStatus);
+                TaskValueRow adapter = (TaskValueRow) vValues.getAdapter();
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private void startActivityForTaskValue(Class<? extends Activity> clazz, TaskValue taskValue) {

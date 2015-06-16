@@ -34,6 +34,7 @@ public class TeamTasksDbHelper extends SQLiteOpenHelper {
                 TaskValue.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 TaskValue.COLUMN_VERSION + " NUMERIC, " +
                 TaskValue.COLUMN_TEXT + " TEXT NOT NULL, " +
+                TaskValue.COLUMN_STATUS + " TEXT NOT NULL, " +
                 TaskValue.COLUMN_LIST_ID + " INTEGER NOT NULL, " +
                 "FOREIGN KEY ("+ TaskValue.COLUMN_LIST_ID + ") REFERENCES " + TaskList.TABLE_NAME + " (" + TaskList.COLUMN_ID + ")" +
                 ")");

@@ -6,6 +6,8 @@ import android.database.Cursor;
 import java.util.List;
 
 import cz.suky.teamtasks.android.db.builder.QueryBuilder;
+import cz.suky.teamtasks.android.db.builder.UpdateBuilder;
+import cz.suky.teamtasks.android.model.Status;
 import cz.suky.teamtasks.android.model.TaskValue;
 
 /**
@@ -27,6 +29,7 @@ public class TaskValueDaoImpl extends AbstractDaoImpl<TaskValue> implements Task
                 TaskValue.COLUMN_ID,
                 TaskValue.COLUMN_VERSION,
                 TaskValue.COLUMN_TEXT,
+                TaskValue.COLUMN_STATUS,
                 TaskValue.COLUMN_LIST_ID
         };
     }
@@ -35,6 +38,7 @@ public class TaskValueDaoImpl extends AbstractDaoImpl<TaskValue> implements Task
     protected TaskValue mapToModel(Cursor cursor) {
         TaskValue taskValue = mapToModelAbstract(new TaskValue(), cursor);
         taskValue.setText(cursor.getString(cursor.getColumnIndex(TaskValue.COLUMN_TEXT)));
+        taskValue.setStatus(Status.valueOf(cursor.getString(cursor.getColumnIndex(TaskValue.COLUMN_STATUS))));
         taskValue.setTaskListId(cursor.getInt(cursor.getColumnIndex(TaskValue.COLUMN_LIST_ID)));
         return taskValue;
     }
@@ -43,6 +47,7 @@ public class TaskValueDaoImpl extends AbstractDaoImpl<TaskValue> implements Task
     protected ContentValues mapToValues(TaskValue model) {
         ContentValues contentValues = mapToValuesAbstract(model);
         contentValues.put(TaskValue.COLUMN_TEXT, model.getText());
+        contentValues.put(TaskValue.COLUMN_STATUS, model.getStatus().toString());
         contentValues.put(TaskValue.COLUMN_LIST_ID, model.getTaskListId());
         return contentValues;
     }
@@ -57,5 +62,12 @@ public class TaskValueDaoImpl extends AbstractDaoImpl<TaskValue> implements Task
     public int countOfValues(Integer taskListId) {
         Cursor cursor = new QueryBuilder().select(TaskValue.COLUMN_ID).from(TaskValue.TABLE_NAME).where().equals(TaskValue.COLUMN_LIST_ID, taskListId.toString()).execute(getRDb());
         return cursor.getCount();
+    }
+
+    @Override
+    public void setStatus(Integer taskValueId, Status status) {
+        ContentValues values = new ContentValues();
+        values.put(TaskValue.COLUMN_STATUS, status.toString());
+        new UpdateBuilder().table(TaskValue.TABLE_NAME).equals(TaskValue.COLUMN_ID, taskValueId.toString()).execute(getWDb(), values);
     }
 }

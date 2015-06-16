@@ -8,6 +8,7 @@ public class TaskValue extends AbstractModel {
 
     public static final String TABLE_NAME = "TaskValue";
     public static final String COLUMN_TEXT = "text";
+    public static final String COLUMN_STATUS = "status";
     public static final String COLUMN_LIST_ID = "taskListId";
 
     private String text;

@@ -2,6 +2,7 @@ package cz.suky.teamtasks.android.service;
 
 import java.util.List;
 
+import cz.suky.teamtasks.android.model.Status;
 import cz.suky.teamtasks.android.model.TaskValue;
 
 /**
@@ -16,4 +17,6 @@ public interface TaskValueService {
     void get(int taskValueId, ServiceResultCallback<TaskValue> serviceResultCallback);
 
     void save(TaskValue taskValue, ServiceResultCallback<Void> callback);
+
+    void setStatus(Integer taskValueId, Status status, ServiceResultCallback<Void> callback);
 }

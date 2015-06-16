@@ -5,6 +5,7 @@ import android.content.Context;
 import java.util.List;
 
 import cz.suky.teamtasks.android.db.TaskValueDao;
+import cz.suky.teamtasks.android.model.Status;
 import cz.suky.teamtasks.android.model.TaskValue;
 
 /**
@@ -21,47 +22,59 @@ public class TaskValueServiceImpl implements TaskValueService {
     }
 
     @Override
-    public void getAllForTaskListId(Integer taskListId, ServiceResultCallback<List<TaskValue>> callback) {
-        new AsyncService<Integer, List<TaskValue>>(context, callback) {
+    public void getAllForTaskListId(final Integer taskListId, ServiceResultCallback<List<TaskValue>> callback) {
+        new AsyncService<List<TaskValue>>(context, callback) {
 
             @Override
-            protected Response doIt(Integer integer) {
-                return Response.ok(taskValueDao.getAllForTaskList(integer));
+            protected Response doIt() {
+                return Response.ok(taskValueDao.getAllForTaskList(taskListId));
             }
-        }.execute(taskListId);
+        }.execute();
     }
 
     @Override
-    public void getCountOfTaskValues(Integer taskListId, ServiceResultCallback<Integer> callback) {
-        new AsyncService<Integer, Integer>(context, callback) {
+    public void getCountOfTaskValues(final Integer taskListId, ServiceResultCallback<Integer> callback) {
+        new AsyncService<Integer>(context, callback) {
 
             @Override
-            protected Response<Integer> doIt(Integer integer) {
-                return Response.ok(taskValueDao.countOfValues(integer));
+            protected Response<Integer> doIt() {
+                return Response.ok(taskValueDao.countOfValues(taskListId));
             }
-        }.execute(taskListId);
+        }.execute();
     }
 
     @Override
-    public void get(int taskValueId, ServiceResultCallback<TaskValue> serviceResultCallback) {
-        new AsyncService<Integer, TaskValue>(context, serviceResultCallback) {
+    public void get(final int taskValueId, ServiceResultCallback<TaskValue> serviceResultCallback) {
+        new AsyncService<TaskValue>(context, serviceResultCallback) {
 
             @Override
-            protected Response doIt(Integer integer) {
-                return Response.ok(taskValueDao.getById(integer));
+            protected Response doIt() {
+                return Response.ok(taskValueDao.getById(taskValueId));
             }
-        }.execute(taskValueId);
+        }.execute();
     }
 
     @Override
-    public void save(TaskValue taskValue, ServiceResultCallback<Void> callback) {
-        new AsyncService<TaskValue, Void>(context, callback) {
+    public void save(final TaskValue taskValue, ServiceResultCallback<Void> callback) {
+        new AsyncService<Void>(context, callback) {
 
             @Override
-            protected Response doIt(TaskValue taskValue) {
+            protected Response doIt() {
                 taskValueDao.save(taskValue);
                 return Response.ok();
             }
-        }.execute(taskValue);
+        }.execute();
+    }
+
+    @Override
+    public void setStatus(final Integer taskValueId, final Status status, ServiceResultCallback<Void> callback) {
+        new AsyncService<Void>(context, callback) {
+
+            @Override
+            protected Response doIt() {
+                taskValueDao.setStatus(taskValueId, status);
+                return Response.ok();
+            }
+        }.execute();
     }
 }

@@ -7,7 +7,7 @@ import android.os.AsyncTask;
 /**
  * Created by suky on 7.6.15.
  */
-public abstract class AsyncService<Request, Payload> extends AsyncTask<Request, Void, Response<Payload>> {
+public abstract class AsyncService<Payload> extends AsyncTask<Void, Void, Response<Payload>> {
 
     private Context context;
     private ServiceResultCallback<Payload> callback;
@@ -25,19 +25,15 @@ public abstract class AsyncService<Request, Payload> extends AsyncTask<Request, 
     }
 
     @Override
-    protected Response doInBackground(Request... requests) {
+    protected Response doInBackground(Void... requests) {
         try {
-            if (requests != null && requests.length > 0) {
-                return doIt(requests[0]);
-            } else {
-                return doIt(null);
-            }
+            return doIt();
         } catch (Exception e) {
             return Response.error("Something bad happened.", e);
         }
     }
 
-    protected abstract Response doIt(Request request);
+    protected abstract Response doIt();
 
     @Override
     protected void onPostExecute(Response response) {

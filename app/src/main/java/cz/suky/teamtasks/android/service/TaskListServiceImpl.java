@@ -25,45 +25,45 @@ public class TaskListServiceImpl implements TaskListService {
 
     @Override
     public void getAll(ServiceResultCallback<List<TaskList>> calback) {
-        new AsyncService<Void, List<TaskList>>(context, calback) {
+        new AsyncService<List<TaskList>>(context, calback) {
             @Override
-            protected Response<List<TaskList>> doIt(Void request) {
+            protected Response<List<TaskList>> doIt() {
                 return Response.ok(taskListDao.getAll());
             }
         }.execute();
     }
 
     @Override
-    public void get(int id, ServiceResultCallback<TaskList> callback) {
-        new AsyncService<Integer, TaskList>(context, callback) {
+    public void get(final int id, ServiceResultCallback<TaskList> callback) {
+        new AsyncService<TaskList>(context, callback) {
             @Override
-            protected Response<TaskList> doIt(Integer request) {
-                return Response.ok(taskListDao.getById(request));
+            protected Response<TaskList> doIt() {
+                return Response.ok(taskListDao.getById(id));
             }
-        }.execute(id);
+        }.execute();
     }
 
     @Override
-    public void save(TaskList taskList, ServiceResultCallback<Void> callback) {
-        new AsyncService<TaskList, Void>(context, callback) {
+    public void save(final TaskList taskList, ServiceResultCallback<Void> callback) {
+        new AsyncService<Void>(context, callback) {
             @Override
-            protected Response<Void> doIt(TaskList taskList) {
+            protected Response<Void> doIt() {
                 taskListDao.save(taskList);
                 return Response.ok();
             }
-        }.execute(taskList);
+        }.execute();
     }
 
     @Override
-    public void delete(int id, ServiceResultCallback<Void> callback) {
-        new AsyncService<Integer, Void>(context, callback) {
+    public void delete(final int id, ServiceResultCallback<Void> callback) {
+        new AsyncService<Void>(context, callback) {
 
             @Override
-            protected Response<Void> doIt(Integer integer) {
-                taskListDao.delete(integer);
+            protected Response<Void> doIt() {
+                taskListDao.delete(id);
                 return Response.ok();
             }
-        }.execute(id);
+        }.execute();
     }
 
 }
