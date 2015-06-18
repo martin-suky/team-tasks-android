@@ -19,4 +19,6 @@ public interface TaskValueService {
     void save(TaskValue taskValue, ServiceResultCallback<Void> callback);
 
     void setStatus(Integer taskValueId, Status status, ServiceResultCallback<Void> callback);
+
+    void delete(Integer id, ExceptionHandlingCallback<Void> exceptionHandlingCallback);
 }

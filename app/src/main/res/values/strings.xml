@@ -16,6 +16,10 @@
     <string name="vtla_confirm_delete">Do you want to delete Task List with %1$d Tasks?</string>
 
     <string name="vtva_menu_add_value">Add New Task</string>
+    <string name="vtva_context_menu_header">Actions</string>
+    <string name="vtva_context_menu_edit">Edit</string>
+    <string name="vtva_context_menu_delete">Delete</string>
+    <string name="vtva_confirm_delete">Do you want to delete selected Task?</string>
 
     <string name="etla_title_add">Add Task List</string>
     <string name="etla_title_edit">Edit Task List</string>

@@ -1,7 +1,5 @@
 package cz.suky.teamtasks.android.service;
 
-import android.content.Context;
-
 import java.util.List;
 
 import cz.suky.teamtasks.android.db.TaskValueDao;
@@ -71,6 +69,18 @@ public class TaskValueServiceImpl implements TaskValueService {
             @Override
             protected Response doIt() {
                 taskValueDao.setStatus(taskValueId, status);
+                return Response.ok();
+            }
+        }.execute();
+    }
+
+    @Override
+    public void delete(final Integer id, ExceptionHandlingCallback<Void> callback) {
+        new AsyncService<Void>(callback) {
+
+            @Override
+            protected Response doIt() {
+                taskValueDao.delete(id);
                 return Response.ok();
             }
         }.execute();
